@@ -72,10 +72,7 @@ MCP server respects `MCP_HOST` and `MCP_PORT` (defaults 127.0.0.1:8000). Flask a
 ## Notes
 - This demo is for local exploration only. Do not expose it publicly.
 - Error handling is minimal for clarity. Improve before production use.
-## tests
-- ``curl -s http://127.0.0.1:8000/healthz``
-- ``curl -s -X POST http://127.0.0.1:8000 -H 'content-type: application/json' -d '{"method":"list_tables"}' | jq .``
-- ``curl -s -X POST http://127.0.0.1:8000 -H 'content-type: application/json' -d '{"method":"run_query","params":{"sql":"select * from customers limit 1"}}' | jq .``
+Note: The fastmcp server speaks SSE on `/sse`. Traditional JSON-RPC curl calls to `/` are not supported.
 
 ## Prompts for demo 
 here are solid demo prompts that exercise joins, grouping, filters, and windows without being destructive:  
