@@ -1,10 +1,12 @@
 import os
+import asyncio
+import json
 from typing import Any, Dict
 
 from flask import Flask, render_template_string, request, redirect, url_for, flash
 from dotenv import load_dotenv
-import requests
 from openai import OpenAI
+from fastmcp import Client as FastMCPClient
 
 
 load_dotenv()
@@ -13,27 +15,45 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 MCP_HOST = os.getenv("MCP_HOST", "127.0.0.1")
 MCP_PORT = int(os.getenv("MCP_PORT", "8000"))
 MCP_URL = f"http://{MCP_HOST}:{MCP_PORT}"
+MCP_MODE = "fastmcp"
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev")
 
-
 def mcp_call(method: str, params: Dict[str, Any] | None = None):
-    resp = requests.post(MCP_URL, json={"method": method, "params": params or {}})
-    # Try to parse JSON even on error status to expose DB error messages
+  params = params or {}
+  async def sse_invoke():
+    async with FastMCPClient(f"{MCP_URL}/sse") as c:
+      if method == "list_tables":
+        res = await c.call_tool("list_tables")
+      elif method == "run_query":
+        res = await c.call_tool("run_query", {"sql": params.get("sql", "")})
+      else:
+        raise RuntimeError(f"Unknown method {method}")
+      return parse_fastmcp_result(res)
+  return asyncio.run(sse_invoke())
+
+def parse_fastmcp_result(res):
+  if not res:
+    return None
+  item = res[0]
+  text = getattr(item, "text", None)
+  if isinstance(text, str):
     try:
-        data = resp.json()
+      parsed = json.loads(text)
+      if isinstance(parsed, dict) and parsed.get("error"):
+        raise RuntimeError(parsed.get("error"))
+      return parsed
     except Exception:
-        resp.raise_for_status()
-        # If status OK but no JSON, fallback
-        raise RuntimeError("Invalid MCP response")
-    if "result" in data:
-        return data["result"]
-    if "error" in data:
-        raise RuntimeError(str(data["error"]))
-    # If no result or error key, use HTTP status as last resort
-    resp.raise_for_status()
-    raise RuntimeError("Unknown MCP error")
+      return text
+  if isinstance(item, (dict, list)):
+    if isinstance(item, dict) and item.get("error"):
+      raise RuntimeError(item.get("error"))
+    return item
+  data = getattr(item, "data", None) or getattr(item, "json", None) or getattr(item, "value", None)
+  if data is not None:
+    return data
+  return None
 
 
 def is_db_like_prompt(prompt: str) -> bool:
@@ -168,8 +188,8 @@ INDEX_HTML = """
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>AI DB Assistant</title>
     <style>
-      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 2rem; }
-      header { margin-bottom: 1rem; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 2rem; }
+    header { margin-bottom: 1rem; }
       .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
       textarea { width: 100%; min-height: 90px; }
       table { border-collapse: collapse; width: 100%; }
@@ -270,44 +290,34 @@ def index():
 
 @app.post("/ask")
 def ask():
-    prompt = request.form.get("prompt", "").strip()
-    if not prompt:
-        flash("Please enter a prompt.")
-        return redirect(url_for("index"))
-    # Route general knowledge prompts to LLM directly
-    if not is_db_like_prompt(prompt):
-        try:
-            answer = generate_llm_answer(prompt)
-            # Try to fetch tables for sidebar, but ignore errors
-            try:
-                tables = mcp_call("list_tables")
-            except Exception:
-                tables = []
-            return render_template_string(INDEX_HTML, tables=tables, sql=None, result=None, llm_answer=answer, mcp_url=MCP_URL)
-        except Exception as e:
-            flash(str(e))
-            return redirect(url_for("index"))
-
-    # DB-like prompt: try SQL path first, else fall back to LLM if MCP unreachable
+  prompt = request.form.get("prompt", "").strip()
+  if not prompt:
+    flash("Please enter a prompt.")
+    return redirect(url_for("index"))
+  # Route general knowledge prompts to LLM directly
+  if not is_db_like_prompt(prompt):
     try:
-        sql = generate_sql(prompt)
-        result = mcp_call("run_query", {"sql": sql})
+      answer = generate_llm_answer(prompt)
+      # Try to fetch tables for sidebar, but ignore errors
+      try:
         tables = mcp_call("list_tables")
-        return render_template_string(INDEX_HTML, tables=tables, sql=sql, result=result, llm_answer=None, mcp_url=MCP_URL)
-    except requests.exceptions.RequestException:
-        # MCP unreachable; answer from LLM with a friendly notice
-        flash("MCP Server is not reachable so answering from the LLM")
-        try:
-            answer = generate_llm_answer(prompt)
-            # no tables since MCP is unreachable
-            return render_template_string(INDEX_HTML, tables=[], sql=None, result=None, llm_answer=answer, mcp_url=MCP_URL)
-        except Exception as e:
-            flash(str(e))
-            return redirect(url_for("index"))
+      except Exception:
+        tables = []
+      return render_template_string(INDEX_HTML, tables=tables, sql=None, result=None, llm_answer=answer, mcp_url=MCP_URL)
     except Exception as e:
-        # Other errors (e.g., SQL errors) are shown to user
-        flash(str(e))
-        return redirect(url_for("index"))
+      flash(str(e))
+      return redirect(url_for("index"))
+
+  # DB-like prompt: try SQL path first, else fall back to LLM if MCP unreachable
+  try:
+    sql = generate_sql(prompt)
+    result = mcp_call("run_query", {"sql": sql})
+    tables = mcp_call("list_tables")
+    return render_template_string(INDEX_HTML, tables=tables, sql=sql, result=result, llm_answer=None, mcp_url=MCP_URL)
+  except Exception as e:
+    # Other errors (e.g., SQL errors) are shown to user
+    flash(str(e))
+    return redirect(url_for("index"))
 
 
 if __name__ == "__main__":

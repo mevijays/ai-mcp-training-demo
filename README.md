@@ -1,11 +1,11 @@
 # MCP DB Demo: AI Database Assistant with Postgres
 
-This demo showcases a Flask-based AI assistant that connects to a local PostgreSQL running in Docker via a lightweight MCP-like JSON-RPC server. The assistant can list tables, generate SQL from natural language, execute it, and return results.
+This demo showcases a Flask-based AI assistant that connects to a local PostgreSQL running in Docker via a fastmcp MCP server over SSE. The assistant can list tables, generate SQL from natural language, execute it, and return results.
 
 ## Stack
 - Docker Compose: PostgreSQL
 - `scripts/setup.sh`: initializes DB with sample schema/data (via `scripts/sample.sql`)
-- `postgres-mcp-server.py`: JSON-RPC server exposing `list_tables` and `run_query`
+- `postgres-mcp-fastmcp.py`: fastmcp server exposing `list_tables` and `run_query` over SSE
 - `app.py`: Flask UI + OpenAI-powered SQL generation calling the MCP server
 
 ## Prereqs
@@ -34,7 +34,7 @@ pip install -r requirements.txt
 
 4. Run the MCP server (separate terminal):
 ```bash
-python postgres-mcp-server.py
+python postgres-mcp-fastmcp.py
 ```
 
 5. Run the Flask app:
@@ -44,17 +44,30 @@ python app.py
 
 Visit http://localhost:5050.
 
-Optional checks:
+Optional check via the fastmcp client:
 ```bash
-curl -s http://127.0.0.1:8000/healthz | jq .
-curl -s -X POST http://127.0.0.1:8000 -H 'content-type: application/json' \
-	-d '{"method":"run_query","params":{"sql":"select * from customers limit 2"}}' | jq .
+python - <<'PY'
+from fastmcp import Client
+import asyncio
+
+async def main():
+	async with Client('http://127.0.0.1:8000/sse') as c:
+		tools = await c.list_tools()
+		print('tools:', [t.name for t in tools])
+		r = await c.call_tool('list_tables', _return_raw_result=True)
+		print('list_tables raw:', r)
+		r2 = await c.call_tool('run_query', {'sql': 'select * from customers limit 1'}, _return_raw_result=True)
+		print('run_query raw:', r2)
+
+asyncio.run(main())
+PY
 ```
 
 ## Environment Variables
 See `.env.example`. Sensitive values are loaded from `.env`.
 
 MCP server respects `MCP_HOST` and `MCP_PORT` (defaults 127.0.0.1:8000). Flask app uses them to call the server. Flask serves on `FLASK_PORT` (default 5050).
+
 
 ## Notes
 - This demo is for local exploration only. Do not expose it publicly.
