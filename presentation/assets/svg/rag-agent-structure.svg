@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <defs>
+    <style>
+      .bg{fill:#0e141b}
+      .box{fill:#15202b;stroke:#1f2a36;stroke-width:2}
+      .text{fill:#e6eef8;font-family:Inter, Arial, sans-serif}
+      .label{font-size:24px;font-weight:700}
+      .arrow{stroke:#4cc2ff;stroke-width:3;marker-end:url(#a)}
+    </style>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto-start-reverse">
+      <path d="M0,0 L6,3 L0,6 z" fill="#4cc2ff"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="600" rx="16"/>
+  <g transform="translate(60,240)">
+    <rect class="box" width="200" height="120" rx="12"/>
+    <text x="20" y="50" class="text label">Retrieve</text>
+  </g>
+  <g transform="translate(300,240)">
+    <rect class="box" width="200" height="120" rx="12"/>
+    <text x="20" y="50" class="text label">Rerank</text>
+  </g>
+  <g transform="translate(540,240)">
+    <rect class="box" width="220" height="120" rx="12"/>
+    <text x="20" y="50" class="text label">Prompt Build</text>
+  </g>
+  <g transform="translate(800,220)">
+    <rect class="box" width="300" height="160" rx="12"/>
+    <text x="20" y="50" class="text label">LLM</text>
+    <text x="20" y="90" class="text">Answer + Citations</text>
+  </g>
+  <path class="arrow" d="M260,300 L300,300"/>
+  <path class="arrow" d="M500,300 L540,300"/>
+  <path class="arrow" d="M760,300 L800,300"/>
+</svg>

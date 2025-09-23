@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GitHub Copilot modes: Ask, Edit, Agent | SVG 1.1 compliant -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1200 520" width="1200" height="520">
+  <rect x="0" y="0" width="1200" height="520" rx="16" fill="#0e141b" />
+  <!-- Ask card -->
+  <g transform="translate(50,60)">
+    <rect width="330" height="400" rx="12" fill="#15202b" stroke="#1f2a36" stroke-width="2" />
+    <text x="20" y="44" fill="#e6eef8" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700">Ask</text>
+    <text x="20" y="84" fill="#a9b6c6" font-family="Inter, Arial, sans-serif" font-size="20">Chat and Q&amp;A</text>
+  </g>
+  <!-- Edit card -->
+  <g transform="translate(435,60)">
+    <rect width="330" height="400" rx="12" fill="#15202b" stroke="#1f2a36" stroke-width="2" />
+    <text x="20" y="44" fill="#e6eef8" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700">Edit</text>
+    <text x="20" y="84" fill="#a9b6c6" font-family="Inter, Arial, sans-serif" font-size="20">Inline code changes</text>
+  </g>
+  <!-- Agent card -->
+  <g transform="translate(820,60)">
+    <rect width="330" height="400" rx="12" fill="#15202b" stroke="#1f2a36" stroke-width="2" />
+    <text x="20" y="44" fill="#e6eef8" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700">Agent</text>
+    <text x="20" y="84" fill="#a9b6c6" font-family="Inter, Arial, sans-serif" font-size="20">Task execution with tools</text>
+  </g>
+</svg>

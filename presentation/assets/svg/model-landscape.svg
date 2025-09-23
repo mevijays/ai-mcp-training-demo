@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+  <defs>
+    <style>
+      .bg{fill:#0e141b}
+      .panel{fill:#15202b;stroke:#1f2a36;stroke-width:2}
+      .text{fill:#e6eef8;font-family:Inter, Arial, sans-serif}
+      .muted{fill:#a9b6c6;font-size:22px}
+      .title{font-size:36px;font-weight:700}
+      .label{font-size:26px;font-weight:700}
+      .chip{fill:#0f1620;stroke:#233142;stroke-width:1}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="700" rx="16"/>
+  <text x="60" y="70" class="text title">Model Landscape</text>
+
+  <g transform="translate(60,110)">
+    <rect class="panel" width="500" height="520" rx="12"/>
+    <text x="20" y="42" class="text label">Commercial APIs</text>
+    <g transform="translate(20,70)">
+      <rect class="chip" width="200" height="44" rx="10"/>
+      <text x="14" y="30" class="text">GPT family</text>
+    </g>
+    <g transform="translate(20,130)">
+      <rect class="chip" width="220" height="44" rx="10"/>
+      <text x="14" y="30" class="text">Claude family</text>
+    </g>
+    <g transform="translate(20,190)">
+      <rect class="chip" width="200" height="44" rx="10"/>
+      <text x="14" y="30" class="text">Gemini</text>
+    </g>
+    <g transform="translate(20,250)">
+      <rect class="chip" width="250" height="44" rx="10"/>
+      <text x="14" y="30" class="text">Cohere Command</text>
+    </g>
+  </g>
+
+  <g transform="translate(640,110)">
+    <rect class="panel" width="500" height="520" rx="12"/>
+    <text x="20" y="42" class="text label">Open-source</text>
+    <g transform="translate(20,70)">
+      <rect class="chip" width="160" height="44" rx="10"/>
+      <text x="14" y="30" class="text">Llama</text>
+    </g>
+    <g transform="translate(20,130)">
+      <rect class="chip" width="200" height="44" rx="10"/>
+      <text x="14" y="30" class="text">Mistral/Mixtral</text>
+    </g>
+    <g transform="translate(20,190)">
+      <rect class="chip" width="120" height="44" rx="10"/>
+      <text x="14" y="30" class="text">Qwen</text>
+    </g>
+    <g transform="translate(20,250)">
+      <rect class="chip" width="120" height="44" rx="10"/>
+      <text x="14" y="30" class="text">Phi</text>
+    </g>
+    <g transform="translate(20,310)">
+      <rect class="chip" width="140" height="44" rx="10"/>
+      <text x="14" y="30" class="text">Gemma</text>
+    </g>
+    <g transform="translate(20,370)">
+      <rect class="chip" width="180" height="44" rx="10"/>
+      <text x="14" y="30" class="text">DeepSeek</text>
+    </g>
+  </g>
+</svg>

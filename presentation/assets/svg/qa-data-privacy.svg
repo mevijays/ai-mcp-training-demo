@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+  <defs>
+    <style>
+      .bg{fill:#0e141b}
+      .panel{fill:#15202b;stroke:#1f2a36;stroke-width:2}
+      .text{fill:#e6eef8;font-family:Inter, Arial, sans-serif}
+      .label{font-size:28px;font-weight:700}
+      .muted{fill:#a9b6c6;font-size:20px}
+      .accent{fill:#4cc2ff}
+      .ok{fill:#7ef5a2}
+      .no{fill:#ff6b6b}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="700" rx="16"/>
+  <text x="60" y="70" class="text label">Enterprise data privacy with LLMs</text>
+
+  <g transform="translate(60,110)">
+    <rect class="panel" width="500" height="520" rx="12"/>
+    <text x="20" y="46" class="text">Local / Self-hosted</text>
+    <text x="20" y="86" class="muted">Data stays in your VPC</text>
+    <circle cx="60" cy="140" r="18" class="ok"/>
+    <text x="90" y="148" class="text">No provider access</text>
+    <circle cx="60" cy="190" r="18" class="ok"/>
+    <text x="90" y="198" class="text">Full control</text>
+  </g>
+
+  <g transform="translate(640,110)">
+    <rect class="panel" width="500" height="520" rx="12"/>
+    <text x="20" y="46" class="text">Cloud API</text>
+    <text x="20" y="86" class="muted">Inference only</text>
+    <circle cx="60" cy="140" r="18" class="ok"/>
+    <text x="90" y="148" class="text">No training by default</text>
+    <circle cx="60" cy="190" r="18" class="ok"/>
+    <text x="90" y="198" class="text">Enterprise data controls</text>
+    <circle cx="60" cy="240" r="18" class="accent"/>
+    <text x="90" y="248" class="text">Review retention settings</text>
+  </g>
+</svg>

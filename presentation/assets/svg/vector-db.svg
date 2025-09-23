@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0" stop-color="#4cc2ff"/>
+      <stop offset="1" stop-color="#7ef5a2"/>
+    </linearGradient>
+    <style>
+      .box{fill:#0f1620;stroke:url(#g);stroke-width:2;rx:10;ry:10}
+      .t{fill:#e6eef8;font:600 14px Inter, sans-serif}
+      .dot{fill:#7ef5a2;opacity:0.6}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#0e141b"/>
+  <rect class="box" x="40" y="40" width="160" height="60"/>
+  <text class="t" x="120" y="75" text-anchor="middle">Query Embedding</text>
+  <rect class="box" x="250" y="30" width="260" height="140"/>
+  <text class="t" x="380" y="60" text-anchor="middle">ANN Index</text>
+  <g>
+    <circle class="dot" cx="290" cy="120" r="5"/>
+    <circle class="dot" cx="330" cy="90" r="5"/>
+    <circle class="dot" cx="380" cy="110" r="5"/>
+    <circle class="dot" cx="420" cy="70" r="5"/>
+    <circle class="dot" cx="470" cy="120" r="5"/>
+  </g>
+  <rect class="box" x="560" y="40" width="300" height="60"/>
+  <text class="t" x="710" y="75" text-anchor="middle">Top-k Results (+ metadata)</text>
+  <g stroke="url(#g)" stroke-width="2" fill="none">
+    <path d="M200,70 L250,70"/>
+    <path d="M510,70 L560,70"/>
+    <polygon points="560,70 550,65 550,75" fill="url(#g)"/>
+    <polygon points="250,70 240,65 240,75" fill="url(#g)"/>
+  </g>
+  <text class="t" x="380" y="200" text-anchor="middle" fill="#a9b6c6">Distance: cosine / dot</text>
+</svg>

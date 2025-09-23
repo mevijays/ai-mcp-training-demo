@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+  <defs>
+    <style>
+      .bg{fill:#0e141b}
+      .axis{stroke:#233142;stroke-width:2}
+      .dot1{fill:#4cc2ff}
+      .dot2{fill:#7ef5a2}
+      .text{fill:#e6eef8;font-family:Inter, Arial, sans-serif}
+    </style>
+  </defs>
+  <rect class="bg" width="900" height="600" rx="16"/>
+  <line x1="80" y1="540" x2="80" y2="80" class="axis"/>
+  <line x1="80" y1="540" x2="840" y2="540" class="axis"/>
+  <circle cx="220" cy="420" r="10" class="dot1"/>
+  <circle cx="260" cy="390" r="10" class="dot1"/>
+  <circle cx="230" cy="360" r="10" class="dot1"/>
+  <circle cx="600" cy="260" r="10" class="dot2"/>
+  <circle cx="640" cy="230" r="10" class="dot2"/>
+  <circle cx="610" cy="210" r="10" class="dot2"/>
+  <text x="200" y="470" class="text">Cluster A</text>
+  <text x="580" y="300" class="text">Cluster B</text>
+</svg>

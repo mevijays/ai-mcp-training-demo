@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Tech Training — Slides</title>
+    <meta name="description" content="HTML slide deck for AI technical understanding training" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar" aria-hidden="false">
+        <div class="brand">AI awareness session</div>
+        <div class="spacer"></div>
+        <button id="btnHelp" class="btn" title="Show Help [?]" aria-label="Show help">?</button>
+      </header>
+
+      <main id="slides" class="slides" tabindex="0" aria-live="polite">
+        <!-- Slide 1: Intro -->
+        <section class="slide" data-title="Intro">
+          <div class="content center">
+            <h1>GitHub Copilot and AI Applications</h1>
+            <p class="subtitle">AI technical awareness session</p>
+            <p class="meta">Speaker: <strong>Vijay Vishwakarma</strong></p>
+          </div>
+        </section>
+
+        <!-- Slide 2: Agenda -->
+        <section class="slide" data-title="Agenda">
+          <div class="content">
+            <h2>Agenda</h2>
+            <p class="lead">We’ll build a mental model of AI systems, then go hands-on with agents, MCP, and RAG.</p>
+            <ul>
+              <li>GitHub Copilot ( Getting more from AI power to your development)</li>
+              <li>AI/ML and ML Models</li>
+              <li>Neural Networks and LLMs (size, tokens, ecosystem)</li>
+              <li>Agentic AI</li>
+              <li>MCP and MCP Server</li>
+              <li>FASTMCP framework and MCP clients library</li>
+              <li>DEMO</li>
+              <li>Keyword vs Semantic Search</li>
+              <li>RAG: embeddings, vectors, structure  and LangChain framework</li>
+              <li>DEMO</li>
+            </ul>
+          </div>
+        </section>
+        <section class="slide" data-title="Intro">
+          <div class="content center">
+            <h1>AI assisted development</h1>
+            <p class="subtitle">Power your IDE</p>
+          </div>
+        </section>
+        <!-- Slide 3: Information & Data -->
+        <section class="slide" data-title="Information & Data">
+          <div class="content">
+            <h2>AI assisted software development and challenges for someone new to AI.</h2>
+            <div class="two-col">
+              <ul>
+                <li>Lack of feature understanding in IDE AI systems and their capabilities.</li>
+                <li>Hands-on practice: Engage with AI tools and platforms to build practical skills.</li>
+                <li>AI model hallucination: Be aware of the potential for AI models to generate incorrect or misleading information.</li>
+                <li>Interaction challenges: AI is your assistant as a machine and not a human being, so it becomes very important to understand its limitations and how to effectively communicate with it.</li>
+                <li>AI LLM models can do a lot more things so you have to be mindful of your interactions for your correct requirements.</li>
+                <li>You should have enough understanding to tell LLM model for it's role so that it can assist you effectively.</li>
+                <li>Understanding model capabilities and selecting right model.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/info-mastery-loop.svg" alt="AI-assisted development mastery loop" onerror="this.onerror=null; this.src='assets/svg/info-lifecycle.svg';" />
+                <figcaption class="small">understand features, know how to operate, interact better</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 4: GitHub Copilot -->
+        <section class="slide" data-title="GitHub Copilot">
+          <div class="content">
+            <h2>GitHub Copilot</h2>
+            <p class="lead">An AI pair programmer in your IDE—chat, code edits, and agent-like task execution with tools.</p>
+            <div class="two-col">
+              <ul>
+                <li>Modes: <strong>Ask</strong> (Chat), <strong>Edit</strong> (inline changes), <strong>Agent</strong> (task execution with tools).</li>
+                <li>Instructions: <code>.github/copilot-instructions.md</code> to guide behavior per repo.</li>
+                <li>Prompt templates: keep reusable prompts in <code>.github/prompts/</code>.</li>
+                <li>Limits & policy: org rate limits and data controls may apply.</li>
+                <li>Extensions: wire extra tools/APIs for the agent to use.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/copilot-modes.svg?v=1" alt="Copilot Ask, Edit, Agent modes" onerror="this.onerror=null; this.src='assets/svg/agent-loop.svg';" />
+                <figcaption class="small">Ask · Edit · Agent</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 4.1: Copilot Instructions + Prompt -->
+        <section class="slide" data-title="Copilot Instructions & Prompt">
+          <div class="content">
+            <h2>Copilot: Repo Instructions & Prompt</h2>
+            <p class="lead">Java 17 Spring Boot test engineering to raise JaCoCo to 80%+ without changing features.</p>
+            <div class="two-col">
+              <div>
+                <h3>.github/copilot-instructions.md</h3>
+                <pre><code># GitHub Copilot Repository Instructions
+Stack: Java 17, Spring Boot
+Build: mvn verify
+Tests: JUnit 5, Mockito
+Coverage: JaCoCo ≥ 80% lines and branches
+
+Guardrails
+- Do not change product behavior or public APIs
+- Prefer unit tests; keep integration tests fast/deterministic
+- Avoid hitting real external services; use fakes/mocks where sensible
+- Improve testability via small refactors only when necessary
+
+Definition of Done
+- mvn -q -DskipITs=false verify passes
+- JaCoCo report shows ≥ 80% for lines and branches on modules
+- New tests are readable and isolated; names describe intent
+- No flaky or long-running tests</code></pre>
+              </div>
+              <div>
+                <h3>.github/prompts/increase-coverage.prompt.md</h3>
+                <pre><code># Role
+You are a senior testing engineer improving coverage for a Java 17 Spring Boot repo.
+
+# Context
+- Tests use JUnit 5 and Mockito
+- Target JaCoCo ≥ 80%
+- Use mvn verify to run
+
+# Task
+1) Identify untested branches/paths
+2) Propose test cases (names, method-under-test, scenario)
+3) Implement tests incrementally
+4) Run mvn verify and iterate until thresholds met
+
+# Success Criteria
+- Builds green locally
+- JaCoCo ≥ 80% lines/branches
+- No behavior changes; public APIs unchanged</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 5: AI/ML and Models -->
+        <section class="slide" data-title="Intro">
+          <div class="content center">
+            <h1>Fundamentals of AI and LLMs</h1>
+            <p class="subtitle">Developing logical understanding of AI systems and LLMs</p>
+          </div>
+        </section>
+        <section class="slide" data-title="AI/ML and Models">
+          <div class="content">
+            <h2>AI/ML and ML Models</h2>
+            <p class="lead">Machine Learning is the engine of modern AI; models learn patterns from data to make predictions.</p>
+            <div class="two-col">
+              <ul>
+                <li>AI (Artificial Intelligence): Broad field focused on creating systems that mimic human intelligence.</li>
+                <li>ML (Machine Learning): A subset of AI where machines learn from data.</li>
+                <li>ML Models: Algorithms trained on data to make predictions or decisions (e.g., decision trees, neural networks).</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/ai-stack.svg" alt="AI-ML-DL concentric stack diagram" />
+                <figcaption class="small">Conceptual stack</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 6: Neural Networks & LLMs -->
+        <section class="slide" data-title="Neural & LLMs">
+          <div class="content">
+            <h2>Neural Networks and LLMs</h2>
+            <p class="lead">Neural nets learn representations. Transformers scale this to powerful language models.</p>
+            <div class="two-col">
+              <ul>
+                <li>Neural Network: layers of interconnected neurons.</li>
+                <li>Transformers: attention-based; scale to LLMs.</li>
+                <li>LLM: trained on massive text to understand/generate language.</li>
+                <li>Generative AI: create text, code, images, audio.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/transformer-flow.svg" alt="Transformer simplified flow diagram" />
+                <figcaption class="small">Transformer flow (simplified)</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 7: LLM Size (1B, 10B, …) -->
+        <section class="slide" data-title="LLM Size">
+          <div class="content">
+            <h2>What is 1B, 10B, etc.?</h2>
+            <p class="lead">The “B” denotes parameter count. Larger models tend to be more capable but costlier to run.</p>
+            <div class="two-col">
+              <ul>
+                <li>“B” = number of parameters (e.g., 1B = ~1 billion learnable weights).</li>
+                <li>More parameters generally mean better performance but require more compute.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/models-overview.svg" alt="Models overview (parameters scale)" />
+                <figcaption class="small">Models overview (parameters scale)</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 8: Hugging Face & Local Llama -->
+        <section class="slide" data-title="Hugging Face & Local">
+          <div class="content">
+            <h2>Hugging Face and Llama (local)</h2>
+            <p class="lead">The ecosystem to discover and run models locally for experimentation and private workloads.</p>
+            <div class="two-col">
+              <ul>
+                <li>Hugging Face Hub: repository for models, datasets, and demos.</li>
+                <li>Run locally: Transformers, llama.cpp, Ollama.</li>
+                <li>Formats: GGUF/SAFETENSORS; quantization for speed.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/hugging-face.svg" alt="Hugging Face logo (illustrative)" />
+                <figcaption class="small">Hugging Face (illustrative)</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 9: Tokens & Costs -->
+        <section class="slide" data-title="Tokens">
+          <div class="content">
+            <h2>What is a token? How to calculate?</h2>
+            <p class="lead">Billing for paid LLMs is per token—both for inputs and outputs. Tokenization splits text into subwords.</p>
+            <div class="two-col">
+              <ul>
+                <li>Token ≈ chunk of text (≈ 3–4 chars English; ~0.75 words on average).</li>
+                <li>Tokenizers (BPE/WordPiece) split text into subwords; different models tokenize differently.</li>
+                <li>Usage = input tokens + output tokens; providers price per 1K or 1M tokens.</li>
+                <li>Rough estimate: words × 1.3 ≈ tokens. Exact requires the model’s tokenizer.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/tokens-cost.svg" alt="Tokens and cost calculation" />
+                <figcaption class="small">Tokens in/out and pricing</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 10: Model Landscape -->
+        <section class="slide" data-title="Models">
+          <div class="content">
+            <h2>Paid and Open-Source Models</h2>
+            <p class="lead">Pick models by task, quality, latency, cost, and data sensitivity—evaluate on your use-cases.</p>
+            <div class="two-col">
+              <ul>
+                <li>Commercial APIs: GPT, Claude, Gemini, Cohere Command.</li>
+                <li>Open-source: Llama, Mistral/Mixtral, Qwen, Phi, Gemma, DeepSeek, Zephyr.</li>
+                <li>Choose by task: reasoning, coding, long-context, multilingual, cost/latency.</li>
+                <li>Evaluate on your data; quality varies by domain.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/model-landscape.svg" alt="Paid vs open-source model landscape" />
+                <figcaption class="small">Landscape by licensing</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 11: Train vs Fine-tune -->
+        <section class="slide" data-title="Train vs Fine-tune">
+          <div class="content">
+            <h2>Training LLM vs Fine-tuning LLM</h2>
+            <p class="lead">Training builds a base model from scratch; fine-tuning adapts it. Most teams fine-tune or use RAG.</p>
+            <div class="two-col">
+              <ul>
+                <li>Training: Build from scratch using massive datasets.</li>
+                <li>Fine-tuning: Adapt a pre-trained model to a task/domain.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/train-vs-finetune.svg" alt="Training vs fine-tuning comparison" />
+                <figcaption class="small">Train from scratch vs adapt</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Intro">
+          <div class="content center">
+            <h1>Important myth to solve</h1>
+            <p class="subtitle">Enterprise data privacy</p>
+          </div>
+        </section>
+        <!-- Slide 11.5: Q&A — LLM Training & Memory -->
+        <section class="slide" data-title="LLM + Enterprise Data">
+          <div class="content">
+            <h2>Q: Will an LLM train on or memorize our enterprise data?</h2>
+            <p class="lead">Short answer: No. Using MCP tools or a RAG pipeline for inference does not train the provider’s base model or expose your data to other customers.</p>
+            <div class="two-col">
+              <ul>
+                <li><strong>Local/self-hosted:</strong> Data stays in your environment.</li>
+                <li><strong>Cloud APIs:</strong> Respect data-retention settings; opt-out of training.</li>
+                <li><strong>No cross-session memory:</strong> Unless your app stores history.</li>
+                <li><strong>Best practices:</strong> Enterprise plans, minimize/redact PII, audit access.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/qa-data-privacy.svg" alt="Enterprise data privacy with LLMs" />
+                <figcaption class="small">Local vs cloud, no auto-training</figcaption>
+              </figure>
+            </div>
+            <p class="small" style="color:#a9b6c6">Note: In RAG, retrieved context is sent to the model—control what you send.</p>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Intro">
+          <div class="content center">
+            <h1>AI based software development</h1>
+            <p class="subtitle">Building Agentic AI with a lot of frameworks and concepts</p>
+          </div>
+        </section>
+        <!-- Slide 12: Agentic AI -->
+        <section class="slide" data-title="Agentic AI">
+          <div class="content">
+            <h2>Agentic AI</h2>
+            <p class="lead">Agents plan, call tools/APIs, observe results, and iterate toward goals with guardrails.</p>
+            <div class="two-col">
+              <ul>
+                <li>LLM plans steps, calls tools/APIs, observes results, iterates.</li>
+                <li>Use bounded autonomy, explicit goals, and safety rails.</li>
+                <li>Great for workflows and retrieval-augmented tasks.</li>
+                <li>Key: observability and deterministic fallbacks.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/agent-loop.svg" alt="Agent loop: plan → act → observe → reflect" />
+                <figcaption class="small">Plan → Act → Observe → Reflect</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 13: MCP Basics -->
+        <section class="slide" data-title="MCP">
+          <div class="content">
+            <h2>Model Context Protocol (MCP)</h2>
+            <p class="lead">MCP standardizes how LLMs/agents discover and call tools exposed by servers.</p>
+            <div class="two-col">
+              <ul>
+                <li>Capabilities: tools, prompts, resources; transport-agnostic.</li>
+                <li>MCP Server: implements tool endpoints; Client: agent/runner.</li>
+                <li>Benefits: reuse, portability, reliability across ecosystems.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/mcp-overview.svg" alt="MCP server and client overview" />
+                <figcaption class="small">Server exposes tools; clients call</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 14: FASTMCP & Clients -->
+        <section class="slide" data-title="FASTMCP & Clients">
+          <div class="content">
+            <h2>FASTMCP and MCP Clients</h2>
+            <p class="lead">FASTMCP speeds up building MCP servers; clients connect agents to those servers.</p>
+            <div class="two-col">
+              <ul>
+                <li>FASTMCP: build MCP servers quickly (tools/resources wiring).</li>
+                <li>MCP clients: discover tools, call them, stream results.</li>
+                <li>Use cases: retrieval tools, data APIs, automation endpoints.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/fastmcp-clients.svg" alt="FASTMCP servers and MCP clients" />
+                <figcaption class="small">Build servers fast; connect clients</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 15: MCP App Structure -->
+        <section class="slide" data-title="MCP App Structure">
+          <div class="content">
+            <h2>Tool-based MCP App Structure</h2>
+            <p class="lead">Design an agent around tools: keep tools small, composable, and observable.</p>
+            <div class="two-col">
+              <ul>
+                <li>Define tools (inputs/outputs) and expose via MCP server.</li>
+                <li>Client/Agent connects → lists tools → plans → invokes tools.</li>
+                <li>Add guards: validation, timeouts, retries, policy checks.</li>
+                <li>Telemetry: log prompts, args/results, costs, safety events.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/mcp-app-structure.svg" alt="Tool-based MCP application structure" />
+                <figcaption class="small">Tools ↔ Server ↔ Client/Agent</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 16: DEMO placeholder -->
+        <section class="slide" data-title="DEMO 1">
+          <div class="content center">
+            <h1>DEMO</h1>
+            <p>Live demo of the agentic Python Flask app.</p>
+            <p>FASTMCP-based PostgreSQL MCP server with OpenAI LLM; DB assistant client.</p>
+          </div>
+        </section>
+
+        <!-- Slide 16.5: MCP DB Assistant Diagram -->
+        <section class="slide" data-title="DB Assistant (MCP)">
+          <div class="content">
+            <figure>
+              <img src="assets/svg/mcp-db-assistant.svg" alt="MCP-based DB Assistant architecture" />
+              <figcaption class="small">User → Flask MCP Client ↔ OpenAI LLM → PostgreSQL MCP Server (FASTMCP) → PostgreSQL</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <!-- Slide 17: Keyword vs Semantic Search -->
+        <section class="slide" data-title="Search">
+          <div class="content">
+            <h2>Keyword vs Semantic Search</h2>
+            <p class="lead">Lexical search matches words; semantic search matches meanings using embeddings.</p>
+            <div class="two-col">
+              <ul>
+                <li>Keyword: exact term match, BM25; fast, precise, brittle on phrasing.</li>
+                <li>Semantic: embeddings capture meaning; robust to synonyms/paraphrase.</li>
+                <li>Hybrid: combine lexical and vector for best of both.</li>
+                <li>Filters/metadata narrow scope regardless of method.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/search-compare.svg" alt="Keyword vs semantic search diagram" />
+                <figcaption class="small">Lexical vs semantic retrieval</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 18: RAG Overview -->
+        <section class="slide" data-title="RAG Overview">
+          <div class="content">
+            <h2>Retrieval-Augmented Generation (RAG)</h2>
+            <p class="lead">Combine retrieval with generation so the LLM answers using grounded, cited context.</p>
+            <div class="two-col">
+              <ul>
+                <li>Ground LLM outputs using retrieved context from your data.</li>
+                <li>Pipeline: Ingest → Chunk → Embed → Index → Retrieve → Generate.</li>
+                <li>Enhancements: query rewrite, reranking, multi-hop, citations.</li>
+                <li>Measure groundedness and answer helpfulness.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/rag-architecture.svg" alt="RAG architecture pipeline diagram" />
+                <figcaption class="small">RAG pipeline</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 19: Tokenization & Embeddings (RAG) -->
+        <section class="slide" data-title="Embeddings">
+          <div class="content">
+            <h2>Tokenization & Embeddings</h2>
+            <p class="lead">Tokenization prepares text for models; embeddings capture meaning in vectors for retrieval.</p>
+            <div class="two-col">
+              <ul>
+                <li>Tokenization splits text into subwords (BPE/WordPiece) for model input.</li>
+                <li>Embeddings map text → dense vectors; similar meaning → closer vectors.</li>
+                <li>Vector similarity: cosine or dot-product; normalize if needed.</li>
+                <li>Dimensionality ranges ~384–4096+ depending on model.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/embeddings-concept.svg" alt="Embedding space concept" />
+                <figcaption class="small">Similar items cluster</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 20: Embedding Models for RAG -->
+        <section class="slide" data-title="Embedding Models">
+          <div class="content">
+            <h2>Embedding Models Used in RAG</h2>
+            <p class="lead">Choose embedding models for your domain and language needs; keep the same model for index and query.</p>
+            <div class="two-col">
+              <ul>
+                <li>Open-source: sentence-transformers (all-MiniLM, bge, e5), nomic-embed, jina-embeddings.</li>
+                <li>Commercial APIs: high-quality multilingual and long-context options.</li>
+                <li>Choose for: domain coverage, multilingual, cost/latency, dimension.</li>
+                <li>Keep model consistent across indexing and querying.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/embedding-models-criteria.svg?v=1" alt="Embedding model selection criteria" onerror="this.onerror=null; this.src='assets/svg/models-overview.svg';" />
+                <figcaption class="small">Criteria: domain, language, cost</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 21: Vectors & Vector DBs -->
+        <section class="slide" data-title="Vector DBs">
+          <div class="content">
+            <h2>Vectors, Search, and Databases</h2>
+            <p class="lead">Vector DBs store embeddings and make nearest-neighbor search fast at scale.</p>
+            <div class="two-col">
+              <ul>
+                <li>Vector = numeric array (embedding) representing meaning.</li>
+                <li>Search = find nearest neighbors (kNN) in vector space.</li>
+                <li>ANN indexes (HNSW, IVF-PQ) scale search to millions+ vectors.</li>
+                <li>Store metadata for filters; enable hybrid lexical + vector.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/vector-db.svg" alt="Vector DB query and index diagram" />
+                <figcaption class="small">kNN over ANN index</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 22: RAG Agentic App Structure -->
+        <section class="slide" data-title="RAG App Structure">
+          <div class="content">
+            <h2>Structure of a RAG Agentic Application</h2>
+            <p class="lead">Combine retrieval, prompts, and tools into a robust pattern with guardrails and observability.</p>
+            <div class="two-col">
+              <ul>
+                <li>Components: retriever, reranker (optional), prompt builder, LLM.</li>
+                <li>Agent loop: plan → retrieve → reason → cite → answer.</li>
+                <li>Guardrails: content filters, policy checks, output formatting.</li>
+                <li>Observability: trace prompts, context, costs; add evals & alerts.</li>
+              </ul>
+              <figure>
+                <img src="assets/svg/rag-agent-structure.svg" alt="RAG agentic application structure" />
+                <figcaption class="small">Retrieve → Prompt → Generate → Cite</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 23: DEMO placeholder -->
+        <section class="slide" data-title="DEMO 2">
+          <div class="content center">
+            <h1>DEMO</h1>
+            <p>RAG search with MongoDB (vector) and Python Flask (LangChain) using OpenAI.</p>
+          </div>
+        </section>
+
+        <!-- Slide 23.5: RAG App Diagram -->
+        <section class="slide" data-title="RAG App Diagram">
+          <div class="content">
+            <figure>
+              <img src="assets/svg/flask-mongo-rag.svg" alt="Flask + MongoDB Vector + OpenAI RAG architecture" />
+              <figcaption class="small">User → Flask → MongoDB (Vector) → OpenAI LLM → Answer</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <!-- Slide 24: Q&A -->
+        <section class="slide" data-title="Q&A">
+          <div class="content center">
+            <h1>Questions?</h1>
+            <p>Speak up time</p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="bottombar" aria-hidden="false">
+        <div class="controls">
+          <button id="btnPrev" class="btn" title="Previous [←/PgUp]" aria-label="Previous slide">◀</button>
+          <button id="btnNext" class="btn primary" title="Next [→/Space]" aria-label="Next slide">Next ▶</button>
+          <button id="btnFullscreen" class="btn" title="Toggle Fullscreen [F]" aria-label="Toggle Fullscreen">⛶</button>
+        </div>
+        <div class="progress" role="progressbar" aria-label="Slide progress">
+          <div id="progressBar" class="progress-bar"></div>
+        </div>
+        <div id="counter" class="counter" aria-live="polite">1 / 1</div>
+      </footer>
+
+      <dialog id="helpDialog">
+        <h3>Controls</h3>
+        <ul>
+          <li>Next: Right Arrow, Space, PageDown, Click “Next”</li>
+          <li>Previous: Left Arrow, PageUp, Click “◀”</li>
+          <li>First/Last: Home / End</li>
+          <li>Fullscreen: F</li>
+          <li>Focus slides: Click main area</li>
+        </ul>
+        <button id="btnCloseHelp" class="btn">Close</button>
+      </dialog>
+
+      <dialog id="imgDialog" aria-label="Image viewer">
+        <div class="img-dialog-body">
+          <img id="imgDialogImg" alt="Zoomed image" />
+          <div id="imgDialogCaption" class="small" style="text-align:center; margin-top:8px; color:#a9b6c6;"></div>
+          <div style="text-align:center; margin-top:10px;">
+            <button id="btnCloseImg" class="btn">Close</button>
+          </div>
+        </div>
+      </dialog>
+    </div>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>

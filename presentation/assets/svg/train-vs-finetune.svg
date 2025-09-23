@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+  <defs>
+    <style>
+      .bg{fill:#0e141b}
+      .panel{fill:#15202b;stroke:#1f2a36;stroke-width:2}
+      .text{fill:#e6eef8;font-family:Inter, Arial, sans-serif}
+      .label{font-size:28px;font-weight:700}
+      .muted{fill:#a9b6c6;font-size:22px}
+      .accent{fill:#4cc2ff}
+      .accent2{fill:#7ef5a2}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="700" rx="16"/>
+  <text x="60" y="70" class="text label">Training vs Fine-tuning</text>
+
+  <g transform="translate(60,110)">
+    <rect class="panel" width="500" height="520" rx="12"/>
+    <text x="20" y="46" class="text">Train from scratch</text>
+    <text x="20" y="86" class="muted">Massive data + compute</text>
+    <rect x="20" y="120" width="460" height="40" rx="8" class="accent" opacity="0.25"/>
+    <rect x="20" y="170" width="460" height="40" rx="8" class="accent" opacity="0.25"/>
+    <rect x="20" y="220" width="460" height="40" rx="8" class="accent" opacity="0.25"/>
+  </g>
+
+  <g transform="translate(640,110)">
+    <rect class="panel" width="500" height="520" rx="12"/>
+    <text x="20" y="46" class="text">Fine-tune base model</text>
+    <text x="20" y="86" class="muted">Smaller task data</text>
+    <rect x="20" y="120" width="300" height="40" rx="8" class="accent2" opacity="0.25"/>
+    <rect x="20" y="170" width="360" height="40" rx="8" class="accent2" opacity="0.25"/>
+    <rect x="20" y="220" width="240" height="40" rx="8" class="accent2" opacity="0.25"/>
+  </g>
+</svg>

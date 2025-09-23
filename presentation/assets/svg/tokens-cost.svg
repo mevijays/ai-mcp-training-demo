@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+  <defs>
+    <style>
+      .bg{fill:#0e141b}
+      .panel{fill:#15202b;stroke:#1f2a36;stroke-width:2}
+      .accent{fill:#4cc2ff}
+      .accent2{fill:#7ef5a2}
+      .text{fill:#e6eef8;font-family:Inter, Arial, sans-serif}
+      .muted{fill:#a9b6c6;font-size:22px}
+      .title{font-size:36px;font-weight:700}
+      .label{font-size:24px;font-weight:600}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="700" rx="16"/>
+  <text x="60" y="70" class="text title">Tokens and Cost</text>
+
+  <g transform="translate(60,110)">
+    <rect class="panel" width="500" height="220" rx="12"/>
+    <text x="20" y="40" class="text label">Input tokens</text>
+    <rect x="20" y="60" width="460" height="40" rx="8" class="accent" opacity="0.25"/>
+    <rect x="20" y="110" width="360" height="40" rx="8" class="accent" opacity="0.25"/>
+    <rect x="20" y="160" width="420" height="40" rx="8" class="accent" opacity="0.25"/>
+  </g>
+  <g transform="translate(640,110)">
+    <rect class="panel" width="500" height="220" rx="12"/>
+    <text x="20" y="40" class="text label">Output tokens</text>
+    <rect x="20" y="60" width="260" height="40" rx="8" class="accent2" opacity="0.25"/>
+    <rect x="20" y="110" width="320" height="40" rx="8" class="accent2" opacity="0.25"/>
+    <rect x="20" y="160" width="180" height="40" rx="8" class="accent2" opacity="0.25"/>
+  </g>
+
+  <g transform="translate(60,360)">
+    <rect class="panel" width="1080" height="240" rx="12"/>
+    <text x="20" y="40" class="text label">Bill = (Input + Output) × price per 1K tokens</text>
+    <text x="20" y="90" class="muted">Rough estimate: tokens ≈ words × 1.3 · Exact: use the model tokenizer</text>
+    <g transform="translate(20,120)">
+      <rect width="340" height="80" rx="10" class="accent" opacity="0.18"/>
+      <text x="20" y="50" class="text">Prompt tokens</text>
+    </g>
+    <text x="380" y="172" class="text" style="font-size:36px">+</text>
+    <g transform="translate(420,120)">
+      <rect width="340" height="80" rx="10" class="accent2" opacity="0.18"/>
+      <text x="20" y="50" class="text">Completion tokens</text>
+    </g>
+    <text x="780" y="172" class="text" style="font-size:36px">=</text>
+    <g transform="translate(820,120)">
+      <rect width="240" height="80" rx="10" class="accent" opacity="0.35"/>
+      <text x="20" y="50" class="text">Total tokens</text>
+    </g>
+  </g>
+</svg>

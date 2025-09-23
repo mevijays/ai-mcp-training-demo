@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <defs>
+    <style>
+      .bg{fill:#0e141b}
+      .server{fill:#173048;stroke:#1f2a36;stroke-width:2}
+      .client{fill:#15202b;stroke:#1f2a36;stroke-width:2}
+      .text{fill:#e6eef8;font-family:Inter, Arial, sans-serif}
+      .label{font-size:26px;font-weight:700}
+      .arrow{stroke:#4cc2ff;stroke-width:3;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto-start-reverse">
+      <path d="M0,0 L6,3 L0,6 z" fill="#4cc2ff"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="600" rx="16"/>
+  <g transform="translate(80,200)">
+    <rect class="server" width="360" height="220" rx="12"/>
+    <text x="20" y="50" class="text label">FASTMCP Server</text>
+    <text x="20" y="90" class="text">Tools, Resources</text>
+  </g>
+  <g transform="translate(560,120)">
+    <rect class="client" width="260" height="140" rx="12"/>
+    <text x="20" y="45" class="text">MCP Client</text>
+  </g>
+  <g transform="translate(560,320)">
+    <rect class="client" width="260" height="140" rx="12"/>
+    <text x="20" y="45" class="text">Agent Runner</text>
+  </g>
+  <g transform="translate(860,220)">
+    <rect class="client" width="260" height="160" rx="12"/>
+    <text x="20" y="45" class="text">IDE Copilot</text>
+  </g>
+  <path class="arrow" d="M440,310 L560,190"/>
+  <path class="arrow" d="M440,310 L560,390"/>
+  <path class="arrow" d="M440,310 L860,300"/>
+</svg>

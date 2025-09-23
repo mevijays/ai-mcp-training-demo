@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0" stop-color="#4cc2ff"/>
+      <stop offset="1" stop-color="#7ef5a2"/>
+    </linearGradient>
+    <style>
+      .box{fill:#0f1620;stroke:url(#g);stroke-width:2;rx:10;ry:10}
+      .t{fill:#e6eef8;font:600 14px Inter, sans-serif}
+      .sub{fill:#a9b6c6;font:500 12px Inter, sans-serif}
+      .dot{fill:#7ef5a2;opacity:0.65}
+      .q{fill:#4cc2ff;opacity:0.9}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#0e141b"/>
+
+  <text class="t" x="160" y="40" text-anchor="middle">Keyword (Lexical)</text>
+  <rect class="box" x="40" y="60" width="240" height="240"/>
+  <text class="sub" x="160" y="90" text-anchor="middle">Exact term matches</text>
+  <g class="t" fill="#e6eef8">
+    <text x="60" y="130">cat</text>
+    <text x="60" y="160">dog</text>
+    <text x="60" y="190">kitten</text>
+    <text x="60" y="220">feline</text>
+  </g>
+  <circle class="q" cx="250" cy="145" r="6"/>
+  <text class="sub" x="250" y="140" text-anchor="end">query: "cat"</text>
+
+  <text class="t" x="730" y="40" text-anchor="middle">Semantic (Vector)</text>
+  <rect class="box" x="520" y="60" width="340" height="240"/>
+  <text class="sub" x="690" y="90" text-anchor="middle">Meaning-based proximity</text>
+  <g>
+    <circle class="dot" cx="560" cy="250" r="5"/>
+    <circle class="dot" cx="590" cy="200" r="5"/>
+    <circle class="dot" cx="640" cy="220" r="5"/>
+    <circle class="dot" cx="700" cy="190" r="5"/>
+    <circle class="dot" cx="760" cy="210" r="5"/>
+    <circle class="dot" cx="810" cy="170" r="5"/>
+  </g>
+  <circle class="q" cx="620" cy="140" r="6"/>
+  <text class="sub" x="620" y="135" text-anchor="middle">query embedding</text>
+</svg>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Flask + MongoDB Vector DB RAG Workflow | SVG 1.1 compliant -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1200 700" width="1200" height="700">
+  <defs>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto-start-reverse">
+      <path d="M0,0 L6,3 L0,6 z" fill="#4cc2ff" />
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto-start-reverse">
+      <path d="M0,0 L6,3 L0,6 z" fill="#7ef5a2" />
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1200" height="700" rx="16" fill="#0e141b" />
+
+  <!-- Title -->
+  <text x="60" y="70" fill="#e6eef8" font-family="Inter, Arial, sans-serif" font-size="36" font-weight="700">Flask App: Upload → Embed → MongoDB · Query → Retrieve → LLM (RAG)</text>
+
+  <!-- User & Flask App -->
+  <g transform="translate(60,120)">
+    <rect width="240" height="140" rx="12" fill="#15202b" stroke="#1f2a36" stroke-width="2" />
+    <text x="20" y="48" fill="#e6eef8" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">User</text>
+    <text x="20" y="80" fill="#a9b6c6" font-family="Inter, Arial, sans-serif" font-size="16">Uploads PDF/DOCX · Searches</text>
+  </g>
+  <g transform="translate(360,100)">
+    <rect width="300" height="180" rx="12" fill="#173048" stroke="#1f2a36" stroke-width="2" />
+    <text x="20" y="46" fill="#e6eef8" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">Python Flask App</text>
+    <text x="20" y="78" fill="#a9b6c6" font-family="Inter, Arial, sans-serif" font-size="16">Upload &amp; chunk docs</text>
+    <text x="20" y="104" fill="#a9b6c6" font-family="Inter, Arial, sans-serif" font-size="16">Query UI</text>
+  </g>
+
+  <!-- OpenAI Embeddings -->
+  <g transform="translate(740,80)">
+    <rect width="320" height="140" rx="12" fill="#15202b" stroke="#1f2a36" stroke-width="2" />
+    <text x="20" y="46" fill="#e6eef8" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">OpenAI Embeddings</text>
+    <text x="20" y="78" fill="#a9b6c6" font-family="Inter, Arial, sans-serif" font-size="16">Text → Vectors</text>
+  </g>
+
+  <!-- MongoDB Vector DB -->
+  <g transform="translate(740,260)">
+    <rect width="320" height="160" rx="12" fill="#15202b" stroke="#1f2a36" stroke-width="2" />
+    <text x="20" y="46" fill="#e6eef8" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">MongoDB (Vector)</text>
+    <text x="20" y="78" fill="#a9b6c6" font-family="Inter, Arial, sans-serif" font-size="16">Store embeddings + metadata</text>
+  </g>
+
+  <!-- OpenAI LLM -->
+  <g transform="translate(740,460)">
+    <rect width="320" height="140" rx="12" fill="#15202b" stroke="#1f2a36" stroke-width="2" />
+    <text x="20" y="46" fill="#e6eef8" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">OpenAI LLM</text>
+    <text x="20" y="78" fill="#a9b6c6" font-family="Inter, Arial, sans-serif" font-size="16">RAG: answer with context</text>
+  </g>
+
+  <!-- Ingest path: Upload → Embed → Store -->
+  <path d="M300,190 L360,190" stroke="#4cc2ff" stroke-width="3" marker-end="url(#arrowBlue)" />
+  <text x="305" y="175" fill="#a9b6c6" font-family="Inter, Arial, sans-serif" font-size="16">Upload</text>
+  <path d="M660,170 L740,150" stroke="#7ef5a2" stroke-width="3" marker-end="url(#arrowGreen)" />
+  <text x="600" y="155" fill="#a9b6c6" font-family="Inter, Arial, sans-serif" font-size="16">Chunks → Embeddings</text>
+  <path d="M900,220 L900,260" stroke="#7ef5a2" stroke-width="3" marker-end="url(#arrowGreen)" />
+  <text x="910" y="240" fill="#a9b6c6" font-family="Inter, Arial, sans-serif" font-size="16">Store</text>
+
+  <!-- Query path: Prompt → Retrieve → LLM → Answer -->
+  <path d="M300,520 L740,520" stroke="#4cc2ff" stroke-width="3" marker-end="url(#arrowBlue)" />
+  <text x="420" y="510" fill="#a9b6c6" font-family="Inter, Arial, sans-serif" font-size="16">Prompt (NL)</text>
+  <path d="M900,420 L900,460" stroke="#7ef5a2" stroke-width="3" marker-end="url(#arrowGreen)" />
+  <text x="910" y="440" fill="#a9b6c6" font-family="Inter, Arial, sans-serif" font-size="16">Retrieve kNN</text>
+  <path d="M740,540 L300,540" stroke="#7ef5a2" stroke-width="3" marker-end="url(#arrowGreen)" />
+  <text x="470" y="560" fill="#a9b6c6" font-family="Inter, Arial, sans-serif" font-size="16">Answer + citations</text>
+
+  <!-- Supported types -->
+  <g transform="translate(60,300)">
+    <rect width="240" height="120" rx="12" fill="#15202b" stroke="#1f2a36" stroke-width="2" />
+    <text x="20" y="46" fill="#e6eef8" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Docs</text>
+    <text x="20" y="78" fill="#a9b6c6" font-family="Inter, Arial, sans-serif" font-size="16">PDF · DOCX</text>
+  </g>
+</svg>

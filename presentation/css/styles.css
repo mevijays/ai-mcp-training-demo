@@ -1,0 +1,120 @@
+:root {
+  --bg: #0b0f14;
+  --panel: #121820;
+  --text: #e6eef8;
+  --muted: #a9b6c6;
+  --accent: #4cc2ff;
+  --accent-2: #7ef5a2;
+  --danger: #ff6b6b;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: var(--text);
+  background: radial-gradient(1200px 600px at 10% 0%, #0c2535 0%, #0b0f14 50%, #0b0f14 100%);
+}
+
+.app { display: grid; grid-template-rows: auto 1fr auto; height: 100vh; }
+
+.topbar, .bottombar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: rgba(18, 24, 32, 0.8);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.bottombar { border-top: 1px solid rgba(255,255,255,0.05); border-bottom: none; }
+.brand { font-weight: 800; letter-spacing: 0.2px; }
+.spacer { flex: 1; }
+
+.slides {
+  position: relative;
+  overflow: hidden;
+  outline: none;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  padding: 40px 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateX(8%);
+  transition: opacity 220ms ease, transform 220ms ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  z-index: 2;
+}
+
+.content { max-width: 1400px; width: 100%; }
+.content.center { text-align: center; }
+.subtitle { color: var(--muted); margin-top: -8px; }
+.meta { color: var(--muted); font-size: 0.95rem; }
+.lead { color: #cfd9e6; font-size: 1.1rem; margin: 6px 0 12px; }
+
+h1 { font-size: 3rem; margin: 0 0 8px; }
+h2 { font-size: 2rem; margin: 0 0 12px; }
+h3 { font-size: 1.4rem; margin: 0 0 10px; }
+p { font-size: 1.05rem; }
+ul { line-height: 1.6; font-size: 1.05rem; }
+li { margin-bottom: 6px; }
+
+.two-col { display: grid; grid-template-columns: 1.2fr 1.1fr; gap: 28px; align-items: center; }
+.two-col img { width: 100%; height: auto; max-height: 68vh; object-fit: contain; background: #0e141b; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); }
+img.zoomable { cursor: zoom-in; }
+dialog#imgDialog { width: 98vw; height: auto; max-width: 98vw; max-height: 98vh; padding: 8px 10px; }
+dialog#imgDialog::backdrop { background: rgba(0,0,0,0.7); }
+dialog#imgDialog .img-dialog-body { max-width: 96vw; max-height: 92vh; }
+dialog#imgDialog img { width: 96vw; height: 88vh; object-fit: contain; display: block; margin: 0 auto; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: #0e141b; }
+figure { margin: 0; }
+.small { font-size: 0.8rem; color: var(--muted); text-align: center; margin-top: 6px; }
+
+.controls { display: flex; gap: 8px; align-items: center; }
+.btn, .icon-btn {
+  background: #1a2330;
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.btn:hover, .icon-btn:hover { background: #213044; }
+.btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #001018; border: none; font-weight: 700; }
+.btn.primary:hover { filter: brightness(1.05); }
+
+.progress { flex: 1; height: 8px; background: #1a2330; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+.progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+
+.counter { min-width: 64px; text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+dialog { border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; background: #0f1620; color: var(--text); padding: 16px 18px; }
+dialog::backdrop { background: rgba(0,0,0,0.6); }
+
+[contenteditable="true"] {
+  outline: 2px dashed rgba(255,255,255,0.15);
+  padding: 2px 4px;
+  border-radius: 6px;
+}
+[data-hint]::after {
+  content: attr(data-hint);
+  margin-left: 8px; color: var(--muted); font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+  .slide { padding: 28px 20px; }
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 1.6rem; }
+  .two-col { grid-template-columns: 1fr; }
+}
