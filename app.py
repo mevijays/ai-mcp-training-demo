@@ -9,9 +9,13 @@ from openai import OpenAI
 from fastmcp import Client as FastMCPClient
 
 
-load_dotenv()
+load_dotenv(override=True)
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+# OpenAI-compatible LLM configuration
+# Defaults to local server and demo API key, override via .env
+OPENAI_BASE_URL = os.getenv("OPENAI_BASE_URL", "http://192.168.1.238:8000/v1")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "sk-local-123")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", os.getenv("LLM_MODEL", "mistral-7b.gguf"))
 MCP_HOST = os.getenv("MCP_HOST", "127.0.0.1")
 MCP_PORT = int(os.getenv("MCP_PORT", "8000"))
 MCP_URL = f"http://{MCP_HOST}:{MCP_PORT}"
@@ -19,6 +23,13 @@ MCP_MODE = "fastmcp"
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev")
+
+# Basic masked startup log to help diagnose env loading issues
+print(
+  "[app.py] OpenAI config — base_url=", OPENAI_BASE_URL,
+  ", model=", OPENAI_MODEL,
+  ", api_key_set=", bool(OPENAI_API_KEY),
+)
 
 def mcp_call(method: str, params: Dict[str, Any] | None = None):
   params = params or {}
@@ -70,12 +81,12 @@ def is_db_like_prompt(prompt: str) -> bool:
 def generate_llm_answer(prompt: str) -> str:
   if not OPENAI_API_KEY:
     raise RuntimeError("OPENAI_API_KEY not configured")
-  client = OpenAI(api_key=OPENAI_API_KEY)
+  client = OpenAI(api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL)
   system = (
     "You are a helpful assistant. Answer the user's question clearly and concisely."
   )
   completion = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model=OPENAI_MODEL,
     messages=[{"role": "system", "content": system}, {"role": "user", "content": prompt}],
     temperature=0.3,
   )
@@ -142,7 +153,7 @@ def get_schema_markdown() -> str:
 def generate_sql(prompt: str, dialect: str = "postgresql") -> str:
   if not OPENAI_API_KEY:
     raise RuntimeError("OPENAI_API_KEY not configured")
-  client = OpenAI(api_key=OPENAI_API_KEY)
+  client = OpenAI(api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL)
   schema = get_schema_markdown()
   system = (
     "You are an expert SQL generator. "
@@ -153,7 +164,7 @@ def generate_sql(prompt: str, dialect: str = "postgresql") -> str:
   )
   user = f"Database schema:\n{schema}\n\nUser request: {prompt}\nSQL:"
   completion = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model=OPENAI_MODEL,
     messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
     temperature=0.1,
   )
@@ -288,6 +299,30 @@ def index():
   )
 
 
+@app.get("/_config")
+def show_config():
+  """Lightweight diagnostic: shows effective config (masked)."""
+  masked_key = None
+  if OPENAI_API_KEY:
+    masked_key = f"***{OPENAI_API_KEY[-4:]}"
+  return {
+    "openai_base_url": OPENAI_BASE_URL,
+    "openai_model": OPENAI_MODEL,
+    "openai_api_key_last4": masked_key,
+    "mcp_url": MCP_URL,
+  }
+
+
+@app.get("/_llm_ping")
+def llm_ping():
+  """Attempts a tiny chat completion to validate auth and connectivity."""
+  try:
+    msg = generate_llm_answer("Reply with the word PONG only.")
+    return {"ok": True, "reply": msg}
+  except Exception as e:
+    return {"ok": False, "error": str(e)}, 500
+
+
 @app.post("/ask")
 def ask():
   prompt = request.form.get("prompt", "").strip()
@@ -321,5 +356,15 @@ def ask():
 
 
 if __name__ == "__main__":
+  def _print_routes():
+    try:
+      print("[app.py] Routes:")
+      for rule in app.url_map.iter_rules():
+        methods = sorted([m for m in rule.methods if m not in ("HEAD", "OPTIONS")])
+        print(f"  {','.join(methods):8s} {rule.rule}")
+    except Exception as e:
+      print("[app.py] Could not list routes:", e)
+
+  _print_routes()
   port = int(os.getenv("FLASK_PORT", "5050"))
   app.run(host="0.0.0.0", port=port, debug=bool(int(os.getenv("FLASK_DEBUG", "1"))))

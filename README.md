@@ -68,6 +68,13 @@ See `.env.example`. Sensitive values are loaded from `.env`.
 
 MCP server respects `MCP_HOST` and `MCP_PORT` (defaults 127.0.0.1:8000). Flask app uses them to call the server. Flask serves on `FLASK_PORT` (default 5050).
 
+For the OpenAI-compatible LLM, the app reads:
+- `OPENAI_BASE_URL` (default: http://192.168.1.39:8000/v1)
+- `OPENAI_API_KEY` (default: redhat123)
+- `OPENAI_MODEL` (default: gpt-4o-mini)
+
+Override these in your `.env` if your local server uses different values.
+
 
 ## Notes
 - This demo is for local exploration only. Do not expose it publicly.
